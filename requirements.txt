@@ -1,0 +1,10 @@
+transformers==4.48.2
+datasets
+huggingface_hub
+torch
+torchvision
+pillow<12
+opencv-contrib-python
+numpy
+tqdm
+simple-aesthetics-predictor
