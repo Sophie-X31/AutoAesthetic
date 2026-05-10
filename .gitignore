@@ -8,3 +8,6 @@ street_testset/
 portrait_testset/
 object_testset/
 __pycache__/
+
+frontend/node_modules/
+frontend/dist/
