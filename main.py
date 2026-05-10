@@ -1,9 +1,10 @@
 import os
 import csv
+import json
 from PIL import Image
 from predictor import load_predictor, score_batch_img
 from vlm import load_vlm, generate_response
-from optimizer import choose_best_crop, optimize_by_directional_steps, optimize_by_order
+from optimizer import choose_best_crop, optimize_by_directional_steps, optimize_by_order, generate_design_gallery_options
 
 
 # --------------------------------------------- HELPER FUNCTIONS -------------------------------------------------
@@ -84,12 +85,45 @@ def run_batch_design_gallery_optimization(input_path, output_path):
     
     print("Finished running.")
 
+def run_design_gallery_step(input_image_path, output_path, step=0.12, current_params=None):
+    os.makedirs(output_path, exist_ok=True)
+
+    img = Image.open(input_image_path).convert("RGB")
+
+    gallery_options = generate_design_gallery_options(
+        img,
+        current_params=current_params,
+        step=step
+    )
+
+    metadata = []
+
+    for i, option in enumerate(gallery_options):
+        filename = f"option_{i}.jpg"
+
+        option["image"].save(
+            os.path.join(output_path, filename),
+            quality=95
+        )
+
+        metadata.append({
+            "image": filename,
+            "changed_param": option["changed_param"],
+            "direction": option["direction"],
+            "params": option["params"]
+        })
+
+    with open(os.path.join(output_path, "gallery_metadata.json"), "w") as f:
+        json.dump(metadata, f, indent=4)
+
+    return gallery_options
+
 
 # -------------------------------------------- TESTING --------------------------------------------------
 
 if __name__ == "__main__":
-    clip_processor, clip_predictor = load_predictor()
-    vlm_processor, vlm_model = load_vlm()
+    #clip_processor, clip_predictor = load_predictor()
+    #vlm_processor, vlm_model = load_vlm()
 
     # ranking = rank_images("./wedding_testset")
     # print(ranking)
@@ -99,4 +133,9 @@ if __name__ == "__main__":
     # run_batch_independent_optimization("./single_testset", "./output_order")
 
     # run_batch_design_gallery_optimization("./single_testset", "./output_gallery")
+
+    run_design_gallery_step(
+        "./single_testset/test.jpg",
+        "./manual_design"
+    )
     

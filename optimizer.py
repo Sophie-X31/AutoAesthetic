@@ -373,3 +373,38 @@ def optimize_by_directional_steps(img, predictor, processor, step=0.05, max_iter
         )
 
     return current_img, current_score, params
+
+def generate_design_gallery_options(img, current_params=None, step=0.12):
+    """
+    Generate 14 one-step edit options from the current state.
+    No bounds are enforced.
+    """
+
+    if current_params is None:
+        current_params = {
+            "brightness": 1.0,
+            "contrast": 1.0,
+            "saturation": 1.0,
+            "sharpness": 1.0,
+            "shadows": 1.0,
+            "highlights": 1.0,
+            "temperature": 0.0
+        }
+
+    gallery = []
+
+    for param_name in current_params:
+        for direction in [-step, step]:
+            next_params = current_params.copy()
+            next_params[param_name] += direction
+
+            candidate_img = apply_params(img, next_params)
+
+            gallery.append({
+                "image": candidate_img,
+                "changed_param": param_name,
+                "direction": direction,
+                "params": next_params
+            })
+
+    return gallery
