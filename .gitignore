@@ -3,3 +3,7 @@ wedding_testset/
 
 __pycache__manual_design/
 venv/
+manual_design/
+street_testset/
+portrait_testset/
+object_testset/
