@@ -125,17 +125,17 @@ if __name__ == "__main__":
     #clip_processor, clip_predictor = load_predictor()
     #vlm_processor, vlm_model = load_vlm()
 
-    # ranking = rank_images("./wedding_testset")
+    # ranking = rank_images("../wedding_testset")
     # print(ranking)
 
-    # critique = critique_batch_images("./street_testset")
+    # critique = critique_batch_images("../street_testset")
 
-    # run_batch_independent_optimization("./single_testset", "./output_order")
+    # run_batch_independent_optimization("../single_testset", "../output_order")
 
-    # run_batch_design_gallery_optimization("./single_testset", "./output_gallery")
+    # run_batch_design_gallery_optimization("../single_testset", "../output_gallery")
 
     run_design_gallery_step(
-        "./single_testset/test.jpg",
-        "./manual_design"
+        "../single_testset/test.jpg",
+        "../manual_design"
     )
     
