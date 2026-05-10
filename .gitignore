@@ -1,4 +1,5 @@
 .vscode/
 wedding_testset/
 
-__pycache__
+__pycache__manual_design/
+venv/
