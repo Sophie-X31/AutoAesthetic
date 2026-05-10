@@ -6,6 +6,7 @@ from predictor import load_predictor, score_batch_img
 from vlm import load_vlm, generate_response
 from optimizer import choose_best_crop, optimize_by_directional_steps, optimize_by_order, generate_design_gallery_options
 
+clip_processor, clip_predictor = load_predictor()
 
 # --------------------------------------------- HELPER FUNCTIONS -------------------------------------------------
 
@@ -84,6 +85,28 @@ def run_batch_design_gallery_optimization(input_path, output_path):
                 writer.writerow([k, v])
     
     print("Finished running.")
+
+def run_single_design_gallery_optimization(input_image_path, output_path):
+    os.makedirs(output_path, exist_ok=True)
+
+    img = Image.open(input_image_path).convert("RGB")
+
+    best_crop, _, _ = choose_best_crop(img, clip_predictor, clip_processor)
+
+    best_img, best_score, best_params = optimize_by_directional_steps(
+        best_crop,
+        clip_predictor,
+        clip_processor,
+        step=0.05,
+        max_iters=50
+    )
+
+    best_params["final_score"] = best_score
+
+    output_image_path = os.path.join(output_path, "enhanced_image.jpg")
+    best_img.save(output_image_path, quality=95)
+
+    return output_image_path, best_params
 
 def run_design_gallery_step(input_image_path, output_path, step=0.12, current_params=None):
     os.makedirs(output_path, exist_ok=True)

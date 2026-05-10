@@ -1,0 +1,28 @@
+.preview-image {
+  max-width: 500px;
+  width: 100%;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+
+.enhance-button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.enhance-button:hover {
+  background: #1d4ed8;
+}
+
+.params-box {
+  margin-top: 32px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+}

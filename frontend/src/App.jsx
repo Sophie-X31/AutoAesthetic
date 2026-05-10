@@ -1,42 +1,91 @@
-export default function App() {
-  return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
-      {/* Header */}
-      <header className="bg-blue-600 text-white shadow-md">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold tracking-tight">
-            AutoAesthetic
-          </h1>
+import { useState } from "react";
+import "./App.css";
+import AutomaticEditor from "./AutomaticEditor";
 
-          {/* Hamburger Menu */}
-          <button className="flex flex-col justify-center gap-1.5 hover:opacity-80 transition-opacity">
-            <span className="w-7 h-0.5 bg-white rounded"></span>
-            <span className="w-7 h-0.5 bg-white rounded"></span>
-            <span className="w-7 h-0.5 bg-white rounded"></span>
-          </button>
-        </div>
+function App() {
+  const [activeTab, setActiveTab] = useState(null);
+
+  return (
+    <div className="app">
+      <header className="header">
+        <button
+          className="logo-button"
+          onClick={() => setActiveTab("home")}
+        >
+          AutoAesthetic
+        </button>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-6 py-12">
-        <h2 className="text-4xl font-bold mb-6">
-          Welcome
-        </h2>
+      <nav className="tabs">
+        <button
+          className={activeTab === "auto-culling" ? "tab active" : "tab"}
+          onClick={() => setActiveTab("auto-culling")}
+        >
+          Auto Culling
+        </button>
 
-        <div className="space-y-6 text-lg leading-8 text-gray-700">
+        <button
+          className={activeTab === "design-gallery" ? "tab active" : "tab"}
+          onClick={() => setActiveTab("design-gallery")}
+        >
+          Design Gallery
+        </button>
+
+        <button
+          className={activeTab === "automatic-editor" ? "tab active" : "tab"}
+          onClick={() => setActiveTab("automatic-editor")}
+        >
+          Automatic Editor
+        </button>
+      </nav>
+
+      {activeTab === null && (
+        <main className="main">
+          <h2>Welcome to AutoAesthetic!</h2>
+
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+          <br></br>
+          
+
+          <h3>Auto Culling</h3>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec dolor risus. Vivamus ex tellus, commodo vitae mauris ut,
+            posuere imperdiet nibh. Integer nec pellentesque metus. Vivamus consequat massa ex, et sagittis ligula placerat id. Vivamus non 
+            vulputate sapien. Quisque aliquet, nisl ac luctus faucibus, diam turpis interdum felis, in egestas velit nulla et justo. Donec sed 
+            dignissim tortor. Ut consequat odio risus. Donec eu velit nisl. Fusce tellus ante, elementum non blandit nec, venenatis consectetur 
+            elit. Vestibulum non massa erat. Nunc vehicula egestas hendrerit. Quisque vel euismod dolor. Duis tempor augue et velit tempus ullamcorper. 
+            Mauris tempor pretium urna, eget laoreet neque dapibus eu.
           </p>
 
+          <h3>Design Gallery</h3>
           <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec dolor risus. Vivamus ex tellus, commodo vitae mauris ut,
+            posuere imperdiet nibh. Integer nec pellentesque metus. Vivamus consequat massa ex, et sagittis ligula placerat id. Vivamus non 
+            vulputate sapien. Quisque aliquet, nisl ac luctus faucibus, diam turpis interdum felis, in egestas velit nulla et justo. Donec sed 
+            dignissim tortor. Ut consequat odio risus. Donec eu velit nisl. Fusce tellus ante, elementum non blandit nec, venenatis consectetur 
+            elit. Vestibulum non massa erat. Nunc vehicula egestas hendrerit. Quisque vel euismod dolor. Duis tempor augue et velit tempus ullamcorper. 
+            Mauris tempor pretium urna, eget laoreet neque dapibus eu.
           </p>
 
+          <h3>Automatic Editor</h3>
           <p>
-            Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec dolor risus. Vivamus ex tellus, commodo vitae mauris ut,
+            posuere imperdiet nibh. Integer nec pellentesque metus. Vivamus consequat massa ex, et sagittis ligula placerat id. Vivamus non 
+            vulputate sapien. Quisque aliquet, nisl ac luctus faucibus, diam turpis interdum felis, in egestas velit nulla et justo. Donec sed 
+            dignissim tortor. Ut consequat odio risus. Donec eu velit nisl. Fusce tellus ante, elementum non blandit nec, venenatis consectetur 
+            elit. Vestibulum non massa erat. Nunc vehicula egestas hendrerit. Quisque vel euismod dolor. Duis tempor augue et velit tempus ullamcorper. 
+            Mauris tempor pretium urna, eget laoreet neque dapibus eu.
           </p>
-        </div>
-      </main>
+        </main>
+      )}
+
+      {activeTab === "automatic-editor" && <AutomaticEditor />}
     </div>
   );
 }
+
+export default App;
