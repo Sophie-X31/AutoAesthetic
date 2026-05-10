@@ -7,3 +7,4 @@ manual_design/
 street_testset/
 portrait_testset/
 object_testset/
+__pycache__/
