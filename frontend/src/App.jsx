@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import AutomaticEditor from "./AutomaticEditor";
 import DesignGallery from "./DesignGallery";
+import AutoCulling from "./AutoCulling";
 
 function App() {
   const [activeTab, setActiveTab] = useState(null);
@@ -86,6 +87,7 @@ function App() {
 
       {activeTab === "automatic-editor" && <AutomaticEditor />}
       {activeTab === "design-gallery" && <DesignGallery />}
+      {activeTab === "auto-culling" && <AutoCulling />}
     </div>
   );
 }

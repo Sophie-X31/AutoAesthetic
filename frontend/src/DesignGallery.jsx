@@ -101,7 +101,14 @@ function DesignGallery() {
         )}
         </div>
 
-        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <label className="upload-label">
+            Choose Image
+            <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+            />
+        </label>
 
         {originalUrl && (
         <>

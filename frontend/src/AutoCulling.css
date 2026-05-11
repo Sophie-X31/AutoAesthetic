@@ -1,0 +1,99 @@
+.upload-label {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 24px;
+  background: #2563eb;
+  color: white;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.upload-label:hover {
+  background: #1d4ed8;
+}
+
+.upload-label input {
+  display: none;
+}
+
+.rank-button {
+  display: block;
+  margin-top: 24px;
+  padding: 12px 24px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.rank-button:hover {
+  background: #1d4ed8;
+}
+
+.rank-button:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+}
+
+.horizontal-scroll {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 18px 4px 24px;
+  margin-top: 12px;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background: #93c5fd;
+  border-radius: 999px;
+}
+
+.culling-card {
+  position: relative;
+  flex: 0 0 180px;
+  background: white;
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.culling-image {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.rank-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #2563eb;
+  color: white;
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.filename {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #374151;
+  word-break: break-word;
+}
+
+.score {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+}

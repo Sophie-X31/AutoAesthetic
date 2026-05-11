@@ -3,13 +3,15 @@ import shutil
 import time
 import uuid
 from fastapi import FastAPI, UploadFile, File
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
 from main import (
     load_predictor,
     run_single_design_gallery_optimization,
-    run_design_gallery_step
+    run_design_gallery_step,
+    rank_images
 )
 
 app = FastAPI()
@@ -28,11 +30,15 @@ UPLOAD_DIR = "uploads"
 OUTPUT_DIR = "outputs"
 DESIGN_UPLOAD_DIR = "design_uploads"
 DESIGN_OUTPUT_DIR = "design_outputs"
+CULLING_UPLOAD_DIR = "culling_uploads"
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 os.makedirs(DESIGN_UPLOAD_DIR, exist_ok=True)
 os.makedirs(DESIGN_OUTPUT_DIR, exist_ok=True)
+os.makedirs(CULLING_UPLOAD_DIR, exist_ok=True)
+
+app.mount("/culling-uploads", StaticFiles(directory=CULLING_UPLOAD_DIR), name="culling_uploads")
 
 @app.post("/automatic-editor")
 async def automatic_editor(file: UploadFile = File(...)):
@@ -91,3 +97,32 @@ async def design_gallery(file: UploadFile = File(...)):
 def get_design_gallery_image(request_id: str, filename: str):
     image_path = os.path.join(DESIGN_OUTPUT_DIR, request_id, filename)
     return FileResponse(image_path)
+
+@app.post("/auto-culling")
+async def auto_culling(files: list[UploadFile] = File(...)):
+    os.makedirs(CULLING_UPLOAD_DIR, exist_ok=True)
+
+    for old_file in os.listdir(CULLING_UPLOAD_DIR):
+        old_path = os.path.join(CULLING_UPLOAD_DIR, old_file)
+        if os.path.isfile(old_path):
+            os.remove(old_path)
+
+    for file in files:
+        safe_filename = os.path.basename(file.filename)
+        file_path = os.path.join(CULLING_UPLOAD_DIR, safe_filename)
+
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+
+    ranking = rank_images(CULLING_UPLOAD_DIR)
+
+    results = []
+
+    for filename, score in ranking:
+        results.append({
+            "filename": filename,
+            "score": float(score.item() if hasattr(score, "item") else score),
+            "image_url": f"http://localhost:8000/culling-uploads/{filename}"
+        })
+
+    return {"results": results}
