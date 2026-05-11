@@ -1,7 +1,7 @@
 import os
 import csv
 import json
-from PIL import Image
+from PIL import Image, ImageOps
 from predictor import load_predictor, score_batch_img
 from vlm import load_vlm, generate_response
 from optimizer import choose_best_crop, optimize_by_directional_steps, optimize_by_order, generate_design_gallery_options
@@ -12,7 +12,12 @@ clip_processor, clip_predictor = load_predictor()
 
 def load_images(image_dir):
     filenames = [f for f in os.listdir(image_dir)]
-    images = [Image.open(os.path.join(image_dir, f)).convert("RGB") for f in filenames]
+    images = [
+        ImageOps.exif_transpose(
+            Image.open(os.path.join(image_dir, f))
+        ).convert("RGB")
+        for f in filenames
+    ]
     return filenames, images
 
 
@@ -72,24 +77,44 @@ def run_batch_design_gallery_optimization(input_path, output_path):
             clip_predictor, clip_processor,
             step=0.05, max_iters=50
         )
-        best_params["final_score"] = best_score
+        original_score = score_batch_img(clip_processor, clip_predictor, img)
 
+        metadata = {
+            "original_score": original_score,
+            "final_score": best_score,
+            "enhancements": best_params
+        }
+
+        best_img = ImageOps.exif_transpose(best_img)
         best_img.save(os.path.join(output_path, filename), quality=95)
 
         base, _ = os.path.splitext(filename)
         result_path = os.path.join(output_path, base + "_result.csv")
         with open(result_path, "w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(["key", "value"])
-            for k, v in best_params.items():
+            writer.writerow(["original_score", metadata["original_score"]])
+            writer.writerow(["final_score", metadata["final_score"]])
+
+            for k, v in metadata["enhancements"].items():
                 writer.writerow([k, v])
-    
     print("Finished running.")
+
+    return output_path, {
+        "original_score": original_score,
+        "final_score": best_score,
+        "enhancements": best_params
+    }
 
 def run_single_design_gallery_optimization(input_image_path, output_path):
     os.makedirs(output_path, exist_ok=True)
 
-    img = Image.open(input_image_path).convert("RGB")
+    img = ImageOps.exif_transpose(Image.open(input_image_path)).convert("RGB")
+
+    original_score = score_batch_img(
+        clip_processor,
+        clip_predictor,
+        [img]
+    )[0].item()
 
     best_crop, _, _ = choose_best_crop(img, clip_predictor, clip_processor)
 
@@ -106,12 +131,16 @@ def run_single_design_gallery_optimization(input_image_path, output_path):
     output_image_path = os.path.join(output_path, "enhanced_image.jpg")
     best_img.save(output_image_path, quality=95)
 
-    return output_image_path, best_params
+    return output_image_path, {
+        "original_score": original_score,
+        "final_score": best_score,
+        "enhancements": best_params
+    }
 
 def run_design_gallery_step(input_image_path, output_path, step=0.12, current_params=None):
     os.makedirs(output_path, exist_ok=True)
 
-    img = Image.open(input_image_path).convert("RGB")
+    img = ImageOps.exif_transpose(Image.open(input_image_path)).convert("RGB")
 
     gallery_options = generate_design_gallery_options(
         img,
@@ -145,20 +174,20 @@ def run_design_gallery_step(input_image_path, output_path, step=0.12, current_pa
 # -------------------------------------------- TESTING --------------------------------------------------
 
 if __name__ == "__main__":
-    #clip_processor, clip_predictor = load_predictor()
-    #vlm_processor, vlm_model = load_vlm()
+    clip_processor, clip_predictor = load_predictor()
+    vlm_processor, vlm_model = load_vlm()
 
     # ranking = rank_images("../wedding_testset")
     # print(ranking)
 
-    # critique = critique_batch_images("../street_testset")
+    critique = critique_batch_images("../single_testset")
 
     # run_batch_independent_optimization("../single_testset", "../output_order")
 
     # run_batch_design_gallery_optimization("../single_testset", "../output_gallery")
 
-    run_design_gallery_step(
-        "../single_testset/test.jpg",
-        "../manual_design"
-    )
+    #run_design_gallery_step(
+    #    "../single_testset/test.jpg",
+    #    "../manual_design"
+    #)
     

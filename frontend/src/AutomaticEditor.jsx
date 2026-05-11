@@ -1,5 +1,5 @@
-import "./AutomaticEditor.css";
 import { useState } from "react";
+import "./AutomaticEditor.css";
 
 function AutomaticEditor() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -9,7 +9,12 @@ function AutomaticEditor() {
   const [loading, setLoading] = useState(false);
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files?.[0];
+
+    if (!file) {
+        return;
+    }
+
     setSelectedFile(file);
     setPreviewUrl(URL.createObjectURL(file));
     setEnhancedUrl(null);
@@ -19,6 +24,8 @@ function AutomaticEditor() {
   const handleEnhance = async () => {
     if (!selectedFile) return;
 
+    setEnhancedUrl(null);
+    setParams(null);
     setLoading(true);
 
     const formData = new FormData();
@@ -36,42 +43,115 @@ function AutomaticEditor() {
     setLoading(false);
   };
 
+  const handleDownload = async () => {
+    if (!enhancedUrl) return;
+
+    const response = await fetch(enhancedUrl);
+    const blob = await response.blob();
+
+    const blobUrl = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = "enhanced_image.jpg";
+
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(blobUrl);
+  };
+
   return (
     <main className="main">
-      <h2>Automatic Editor</h2>
+      <div className="page-title-row">
+        <h2>Automatic Editor</h2>
+
+        {enhancedUrl && (
+            <button
+            className="download-button"
+            onClick={handleDownload}
+            >
+            Download Enhanced Image
+            </button>
+        )}
+      </div>
 
       <input type="file" accept="image/*" onChange={handleFileChange} />
 
-      {previewUrl && (
-        <div>
-          <h3>Original Image</h3>
-          <img src={previewUrl} alt="Original" className="preview-image" />
+      {loading && (
+        <div className="loading-box">
+          <div className="spinner"></div>
+          <p>Enhancing your image...</p>
         </div>
       )}
 
-      <button className="enhance-button" onClick={handleEnhance}>
-        {loading ? "Enhancing..." : "Enhance"}
-      </button>
+      {(previewUrl || enhancedUrl) && (
+        <div className="image-comparison">
+            {previewUrl && (
+            <div className="image-card">
+                <h3>Original Image</h3>
 
-      {enhancedUrl && (
-        <div>
-          <h3>Enhanced Image</h3>
-          <img src={enhancedUrl} alt="Enhanced" className="preview-image" />
+                <img
+                    src={previewUrl}
+                    alt="Original"
+                    className="preview-image"
+                />
+
+                <div className="image-footer">
+                    {params && (
+                    <p className="score-text">
+                        Original Score: {params.original_score.toFixed(3)}
+                    </p>
+                    )}
+
+                    <button
+                    className="enhance-button"
+                    onClick={handleEnhance}
+                    disabled={loading}
+                    >
+                    {loading ? "Enhancing..." : "Enhance"}
+                    </button>
+                </div>
+                </div>
+            )}
+
+            {enhancedUrl && (
+            <div className="image-card">
+                <h3>Enhanced Image</h3>
+
+                <img
+                    src={enhancedUrl}
+                    alt="Enhanced"
+                    className="preview-image"
+                />
+
+                <div className="image-footer">
+                    {params && (
+                    <p className="score-text">
+                        Final Score: {params.final_score.toFixed(3)}
+                    </p>
+                    )}
+                </div>
+            </div>
+            )}
         </div>
       )}
 
-      {params && (
+      {params?.enhancements && (
         <div className="params-box">
-          <h3>Enhancements Made</h3>
-          <ul>
-            {Object.entries(params).map(([key, value]) => (
-              <li key={key}>
-                <strong>{key}:</strong> {value}
-              </li>
+            <h3>The following enhancements are recommended:</h3>
+            <ul>
+            {Object.entries(params.enhancements).map(([key, value]) => (
+                <li key={key}>
+                <strong>{key}:</strong>{" "}
+                {typeof value === "number" ? value.toFixed(3) : value}
+                </li>
             ))}
-          </ul>
+            </ul>
         </div>
-      )}
+        )}
     </main>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import AutomaticEditor from "./AutomaticEditor";
+import DesignGallery from "./DesignGallery";
 
 function App() {
   const [activeTab, setActiveTab] = useState(null);
@@ -10,7 +11,7 @@ function App() {
       <header className="header">
         <button
           className="logo-button"
-          onClick={() => setActiveTab("home")}
+          onClick={() => setActiveTab(null)}
         >
           AutoAesthetic
         </button>
@@ -84,6 +85,7 @@ function App() {
       )}
 
       {activeTab === "automatic-editor" && <AutomaticEditor />}
+      {activeTab === "design-gallery" && <DesignGallery />}
     </div>
   );
 }
