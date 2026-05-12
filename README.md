@@ -11,6 +11,7 @@ To setup the project, please follow the instructions below:
 
 1. Create Environment/Install Backend Dependencies
 
+First, open a terminal.
 ```bash
 conda create -n aesthetic_env python=3.12
 conda activate aesthetic_env
@@ -26,8 +27,9 @@ uvicorn app:app --reload
 
 3. Run frontend
 
-First, open another terminal.
+Open another terminal.
 ```bash
+conda activate aesthetic_env
 cd frontend
 nvm install 20.19.0
 nvm use 20.19.0
