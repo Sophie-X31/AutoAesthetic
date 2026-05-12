@@ -332,6 +332,7 @@ def optimize_by_directional_steps(img, predictor, processor, step=0.05, max_iter
     current_score = score_img(processor, predictor, current_img)
 
     print(f"Starting score: {current_score:.4f}")
+    history = []
 
     for iteration in range(max_iters):
         best_candidate_img = current_img
@@ -365,6 +366,12 @@ def optimize_by_directional_steps(img, predictor, processor, step=0.05, max_iter
         params = best_candidate_params
         current_img = best_candidate_img
         current_score = best_candidate_score
+        history.append({
+            "iteration": iteration + 1,
+            "parameter": best_change[0],
+            "change": best_change[1],
+            "score": current_score
+        })
 
         print(
             f"Iter {iteration + 1}: "
@@ -372,7 +379,7 @@ def optimize_by_directional_steps(img, predictor, processor, step=0.05, max_iter
             f"→ score {current_score:.4f} | params: {params}"
         )
 
-    return current_img, current_score, params
+    return current_img, current_score, params, history
 
 def generate_design_gallery_options(img, current_params=None, step=0.12):
     """

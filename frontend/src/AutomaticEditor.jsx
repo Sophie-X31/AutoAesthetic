@@ -148,17 +148,37 @@ function AutomaticEditor() {
 
       {params?.enhancements && (
         <div className="params-box">
-            <h3>The following enhancements are recommended:</h3>
-            <ul>
-            {Object.entries(params.enhancements).map(([key, value]) => (
+          <h3>The following enhancements are recommended:</h3>
+
+          <ul>
+            {Object.entries(params.enhancements)
+              .filter(([key]) => key !== "final_score")
+              .map(([key, value]) => (
                 <li key={key}>
-                <strong>{key}:</strong>{" "}
-                {typeof value === "number" ? value.toFixed(3) : value}
+                  <strong>{key}:</strong>{" "}
+                  {typeof value === "number"
+                    ? value.toFixed(3)
+                    : value}
                 </li>
-            ))}
-            </ul>
+              ))}
+          </ul>
         </div>
-        )}
+      )}
+
+      {params?.history && (
+        <div className="params-box">
+          <h3>Enhancement Steps</h3>
+
+          <ol>
+            {params.history.map((step) => (
+              <li key={step.iteration}>
+                {step.parameter} {step.change > 0 ? "+" : ""}
+                {step.change.toFixed(2)}
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
     </main>
   );
 }

@@ -118,7 +118,7 @@ def run_single_design_gallery_optimization(input_image_path, output_path):
 
     best_crop, _, _ = choose_best_crop(img, clip_predictor, clip_processor)
 
-    best_img, best_score, best_params = optimize_by_directional_steps(
+    best_img, best_score, best_params, history = optimize_by_directional_steps(
         best_crop,
         clip_predictor,
         clip_processor,
@@ -134,7 +134,8 @@ def run_single_design_gallery_optimization(input_image_path, output_path):
     return output_image_path, {
         "original_score": original_score,
         "final_score": best_score,
-        "enhancements": best_params
+        "enhancements": best_params,
+        "history": history
     }
 
 def run_design_gallery_step(input_image_path, output_path, step=0.12, current_params=None):
