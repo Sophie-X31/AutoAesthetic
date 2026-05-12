@@ -9,16 +9,29 @@ It supports:
 
 To setup the project, please follow the instructions below:
 
-1. Create environment
+1. Create Environment/Install Backend Dependencies
 
 ```bash
 conda create -n aesthetic_env python=3.12
 conda activate aesthetic_env
-pip install -r requirements.txt
 ```
 
-2. Run website
+2. Run backend
 
 ```bash
-instructions...
+cd backend
+pip install -r requirements.txt
+uvicorn app:app --reload
 ```
+
+3. Run frontend
+
+First, open another terminal.
+```bash
+cd frontend
+nvm install 20.19.0
+nvm use 20.19.0
+npm install
+npm run dev
+```
+4. Click/go to the link provided in the frontend terminal to launch the application.
