@@ -46,41 +46,24 @@ function App() {
           <h2>Welcome to AutoAesthetic!</h2>
 
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua.
+            AutoAesthetic is an interactive photography assistant designed to help beginner photographers improve both their photo selection and editing workflows. The platform combines machine learning, aesthetic prediction models, and image enhancement techniques to provide users with automated recommendations and visual feedback while they learn photography concepts. By simplifying complex editing and culling tasks, AutoAesthetic helps users focus more on creativity and storytelling rather than technical barriers.
           </p>
           <br></br>
           
 
           <h3>Auto Culling</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec dolor risus. Vivamus ex tellus, commodo vitae mauris ut,
-            posuere imperdiet nibh. Integer nec pellentesque metus. Vivamus consequat massa ex, et sagittis ligula placerat id. Vivamus non 
-            vulputate sapien. Quisque aliquet, nisl ac luctus faucibus, diam turpis interdum felis, in egestas velit nulla et justo. Donec sed 
-            dignissim tortor. Ut consequat odio risus. Donec eu velit nisl. Fusce tellus ante, elementum non blandit nec, venenatis consectetur 
-            elit. Vestibulum non massa erat. Nunc vehicula egestas hendrerit. Quisque vel euismod dolor. Duis tempor augue et velit tempus ullamcorper. 
-            Mauris tempor pretium urna, eget laoreet neque dapibus eu.
+            AutoAesthetic is an interactive photography assistant designed to help beginner photographers improve both their photo selection and editing workflows. The platform combines machine learning, aesthetic prediction models, and image enhancement techniques to provide users with automated recommendations and visual feedback while they learn photography concepts. By simplifying complex editing and culling tasks, AutoAesthetic helps users focus more on creativity and storytelling rather than technical barriers.
           </p>
 
           <h3>Design Gallery</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec dolor risus. Vivamus ex tellus, commodo vitae mauris ut,
-            posuere imperdiet nibh. Integer nec pellentesque metus. Vivamus consequat massa ex, et sagittis ligula placerat id. Vivamus non 
-            vulputate sapien. Quisque aliquet, nisl ac luctus faucibus, diam turpis interdum felis, in egestas velit nulla et justo. Donec sed 
-            dignissim tortor. Ut consequat odio risus. Donec eu velit nisl. Fusce tellus ante, elementum non blandit nec, venenatis consectetur 
-            elit. Vestibulum non massa erat. Nunc vehicula egestas hendrerit. Quisque vel euismod dolor. Duis tempor augue et velit tempus ullamcorper. 
-            Mauris tempor pretium urna, eget laoreet neque dapibus eu.
+            The Design Gallery provides an interactive editing experience that helps users visually explore how different image adjustments affect the final result. The system generates multiple enhancement variations by independently modifying parameters such as brightness, contrast, saturation, sharpness, shadows, highlights, and temperature. Users can compare these options side-by-side, select preferred edits, and iteratively generate new variations based on their choices. This workflow allows beginners to experiment with editing techniques while developing a better understanding of how specific adjustments influence the aesthetic quality and mood of an image.
           </p>
 
           <h3>Automatic Editor</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec dolor risus. Vivamus ex tellus, commodo vitae mauris ut,
-            posuere imperdiet nibh. Integer nec pellentesque metus. Vivamus consequat massa ex, et sagittis ligula placerat id. Vivamus non 
-            vulputate sapien. Quisque aliquet, nisl ac luctus faucibus, diam turpis interdum felis, in egestas velit nulla et justo. Donec sed 
-            dignissim tortor. Ut consequat odio risus. Donec eu velit nisl. Fusce tellus ante, elementum non blandit nec, venenatis consectetur 
-            elit. Vestibulum non massa erat. Nunc vehicula egestas hendrerit. Quisque vel euismod dolor. Duis tempor augue et velit tempus ullamcorper. 
-            Mauris tempor pretium urna, eget laoreet neque dapibus eu.
+            The Automatic Editor streamlines the photo editing process by automatically generating an optimized version of an uploaded image. Using an iterative optimization process, the system evaluates potential edits and progressively adjusts image parameters to maximize the predicted aesthetic quality score. The final enhanced image is displayed alongside the original image, and the recommended editing steps are listed in the order they were applied. While the Design Gallery focuses on interactive learning and exploration, the Automatic Editor prioritizes efficiency by automatically selecting the strongest combination of edits for the user.
           </p>
         </main>
       )}
